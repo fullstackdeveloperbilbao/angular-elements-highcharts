@@ -10,7 +10,9 @@ import { isNil } from "../utils/utils";
 import * as dayjs from "dayjs";
 
 import Accessibility from "highcharts/modules/accessibility";
+import Exporting from "highcharts/modules/exporting";
 Accessibility(Highcharts);
+Exporting(Highcharts);
 
 @Component({
   selector: "app-parent",
@@ -77,6 +79,9 @@ export class ParentComponent {
       },
       tooltip: {
         useHTML: true,
+      },
+      lang: {
+        downloadPNG: demoEl.outerHTML,
       },
       series: [
         {
