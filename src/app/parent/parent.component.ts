@@ -86,7 +86,6 @@ export class ParentComponent {
       },
       tooltip: {
         useHTML: true,
-        style: {},
       },
       series: [
         {
