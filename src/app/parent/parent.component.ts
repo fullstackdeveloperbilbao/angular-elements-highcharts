@@ -81,7 +81,6 @@ export class ParentComponent {
       series: [
         {
           name: demoEl.outerHTML,
-          showInLegend: true,
           type: "spline",
           data: data,
           marker: {
