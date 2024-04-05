@@ -29,12 +29,12 @@ export class ParentComponent {
   constructor() {
     this.defineDemoElement();
 
-    if (Highcharts && Highcharts.AST) {
-      Highcharts.AST.allowedTags = [
-        ...Highcharts.AST.allowedTags,
-        "demo-element",
-      ];
-    }
+    // if (Highcharts && Highcharts.AST) {
+    //   Highcharts.AST.allowedTags = [
+    //     ...Highcharts.AST.allowedTags,
+    //     "demo-element",
+    //   ];
+    // }
   }
 
   ngOnInit() {
