@@ -1,26 +1,28 @@
-import { Component, Injector, inject } from '@angular/core';
+import { Component, Injector, inject } from "@angular/core";
 import {
   NgElement,
   WithProperties,
   createCustomElement,
-} from '@angular/elements';
-import * as Highcharts from 'highcharts';
-import { DemoComponent } from '../demo/demo.component';
-import { isNil } from '../utils/utils';
-import * as dayjs from 'dayjs';
+} from "@angular/elements";
+import * as Highcharts from "highcharts";
+import { DemoComponent } from "../demo/demo.component";
+import { isNil } from "../utils/utils";
+import * as dayjs from "dayjs";
 
-import Accessibility from 'highcharts/modules/accessibility';
+import Accessibility from "highcharts/modules/accessibility";
+import SeriesLabel from "highcharts/modules/series-label";
 Accessibility(Highcharts);
+SeriesLabel(Highcharts);
 
 @Component({
-  selector: 'app-parent',
-  templateUrl: './parent.component.html',
+  selector: "app-parent",
+  templateUrl: "./parent.component.html",
 })
 export class ParentComponent {
   private injector = inject(Injector);
 
   Highcharts: typeof Highcharts = Highcharts;
-  chartConstructor: string = 'chart';
+  chartConstructor: string = "chart";
   chartOptions: Highcharts.Options = {};
   updateFlag: boolean = false;
   oneToOneFlag: boolean = true;
@@ -28,35 +30,42 @@ export class ParentComponent {
 
   constructor() {
     this.defineDemoElement();
+
+    if (Highcharts && Highcharts.AST) {
+      Highcharts.AST.allowedTags = [
+        ...Highcharts.AST.allowedTags,
+        "demo-element",
+      ];
+    }
   }
 
   ngOnInit() {
     const demoEl: NgElement & WithProperties<DemoComponent> =
-      document.createElement('demo-element') as any;
+      document.createElement("demo-element") as any;
 
     const initDate = dayjs();
     const data = new Array(400).fill(null).map((el, index) => {
       return {
-        x: initDate.clone().add(index, 'days').toDate().getTime(),
+        x: initDate.clone().add(index, "days").toDate().getTime(),
         y: Math.floor(Math.random() * 100),
       };
     });
 
     this.chartOptions = {
       title: {
-        text: demoEl as any,
-        align: 'left',
+        text: demoEl.outerHTML,
+        align: "left",
         useHTML: true,
       },
       xAxis: [
         {
-          type: 'datetime',
+          type: "datetime",
           labels: {
-            format: '{value:%a %H} Uhr',
+            format: "{value:%a %H} Uhr",
           },
           crosshair: true,
           title: {
-            text: 'demoEl as any',
+            text: demoEl.outerHTML,
             useHTML: true,
           },
         },
@@ -64,18 +73,22 @@ export class ParentComponent {
       yAxis: [
         {
           labels: {
-            format: '{value}',
+            format: "{value}",
           },
           title: {
-            text: 'demoEl as any',
+            text: demoEl.outerHTML,
             useHTML: true,
           },
         },
       ],
+      legend: {
+        useHTML: true,
+      },
       series: [
         {
-          name: 'demoEl as any',
-          type: 'spline',
+          name: demoEl.outerHTML,
+          showInLegend: true,
+          type: "spline",
           data: data,
           marker: {
             enabled: false,
@@ -86,11 +99,11 @@ export class ParentComponent {
   }
 
   private defineDemoElement() {
-    if (isNil(customElements.get('demo-element'))) {
+    if (isNil(customElements.get("demo-element"))) {
       const demoElement = createCustomElement(DemoComponent, {
         injector: this.injector,
       });
-      customElements.define('demo-element', demoElement);
+      customElements.define("demo-element", demoElement);
     }
   }
 }
