@@ -90,7 +90,7 @@ export class ParentComponent {
       },
       series: [
         {
-          name: `<div style="display: inline">${demoEl.outerHTML}</div>`,
+          name: demoEl.outerHTML,
           showInLegend: true,
           type: "spline",
           data: data,
