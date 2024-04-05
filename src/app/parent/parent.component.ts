@@ -10,9 +10,7 @@ import { isNil } from "../utils/utils";
 import * as dayjs from "dayjs";
 
 import Accessibility from "highcharts/modules/accessibility";
-import SeriesLabel from "highcharts/modules/series-label";
 Accessibility(Highcharts);
-SeriesLabel(Highcharts);
 
 @Component({
   selector: "app-parent",
