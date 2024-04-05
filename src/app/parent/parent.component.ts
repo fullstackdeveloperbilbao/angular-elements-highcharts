@@ -84,9 +84,13 @@ export class ParentComponent {
       legend: {
         useHTML: true,
       },
+      tooltip: {
+        useHTML: true,
+        style: {},
+      },
       series: [
         {
-          name: demoEl.outerHTML,
+          name: `<div style="display: inline">${demoEl.outerHTML}</div>`,
           showInLegend: true,
           type: "spline",
           data: data,
